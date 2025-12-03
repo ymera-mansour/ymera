@@ -21,7 +21,7 @@ class TaskDelegator:
         self._current_agent_index: int = 0
         self._index_lock: asyncio.Lock = asyncio.Lock()
     
-    def register_agent(self, agent: CloudAgent) -> None:
+    async def register_agent(self, agent: CloudAgent) -> None:
         """
         Register a cloud agent with the delegator.
         
@@ -29,12 +29,13 @@ class TaskDelegator:
             agent: CloudAgent instance to register
         """
         if agent.health_check():
-            self.agents.append(agent)
+            async with self._index_lock:
+                self.agents.append(agent)
             logger.info(f"Agent {agent.agent_id} registered successfully")
         else:
             logger.warning(f"Agent {agent.agent_id} failed health check")
     
-    def unregister_agent(self, agent_id: str) -> bool:
+    async def unregister_agent(self, agent_id: str) -> bool:
         """
         Unregister a cloud agent.
         
@@ -44,14 +45,15 @@ class TaskDelegator:
         Returns:
             True if agent was found and removed, False otherwise
         """
-        for i, agent in enumerate(self.agents):
-            if agent.agent_id == agent_id:
-                self.agents.pop(i)
-                # Reset round-robin index if it's out of bounds or no agents left
-                if not self.agents or self._current_agent_index >= len(self.agents):
-                    self._current_agent_index = 0
-                logger.info(f"Agent {agent_id} unregistered")
-                return True
+        async with self._index_lock:
+            for i, agent in enumerate(self.agents):
+                if agent.agent_id == agent_id:
+                    self.agents.pop(i)
+                    # Reset round-robin index if it's out of bounds or no agents left
+                    if not self.agents or self._current_agent_index >= len(self.agents):
+                        self._current_agent_index = 0
+                    logger.info(f"Agent {agent_id} unregistered")
+                    return True
         return False
     
     async def delegate(self, task: Dict[str, Any], agent_id: Optional[str] = None) -> Dict[str, Any]:

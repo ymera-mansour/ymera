@@ -69,8 +69,8 @@ async def main():
     agent1 = SimpleCloudAgent("cloud-agent-1", {"region": "us-east"})
     agent2 = SimpleCloudAgent("cloud-agent-2", {"region": "eu-west"})
     
-    delegator.register_agent(agent1)
-    delegator.register_agent(agent2)
+    await delegator.register_agent(agent1)
+    await delegator.register_agent(agent2)
     
     # List registered agents
     print("\nRegistered agents:")

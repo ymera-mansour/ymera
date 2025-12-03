@@ -51,7 +51,7 @@ class MyAgent(CloudAgent):
 async def main():
     delegator = TaskDelegator()
     agent = MyAgent("my-agent-1")
-    delegator.register_agent(agent)
+    await delegator.register_agent(agent)
     
     result = await delegator.delegate({'action': 'process'})
     print(result)
