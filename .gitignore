@@ -22,6 +22,18 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
+# Testing
+coverage/
+.nyc_output/
+
+# Production
+dist/
+build/
+
+# Environment
+.env
+.env.local
+.env.*.local
 # Build outputs
 dist/
 build/
@@ -32,6 +44,8 @@ build/
 .idea/
 *.swp
 *.swo
+*~
+
 
 # Test coverage
 coverage/
@@ -49,6 +63,14 @@ PROCESSING_REPORT.md
 .DS_Store
 Thumbs.db
 
+# Temporary files
+tmp/
+temp/
+*.tmp
+
+# Logs
+logs/
+*.log
 # Temp files
 *.tmp
 tmp/

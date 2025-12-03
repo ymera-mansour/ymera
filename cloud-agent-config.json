@@ -1,0 +1,22 @@
+{
+  "cloudAgent": {
+    "enabled": true,
+    "version": "1.0.0",
+    "description": "Cloud agent delegation configuration",
+    "endpoints": {
+      "delegation": "/api/delegate",
+      "status": "/api/status",
+      "results": "/api/results"
+    },
+    "capabilities": [
+      "distributed-processing",
+      "async-execution",
+      "scalable-compute"
+    ],
+    "settings": {
+      "timeout": 3600,
+      "retryAttempts": 3,
+      "priority": "normal"
+    }
+  }
+}
