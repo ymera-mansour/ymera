@@ -48,8 +48,8 @@ If your zip file is very large (>100MB):
 # Install Git LFS
 git lfs install
 
-# Track zip files
-git lfs track "*.zip"
+# Track the specific zip file (recommended to avoid tracking all zips)
+git lfs track "YmeraRefactor.zip"
 git add .gitattributes
 
 # Add your file
@@ -108,7 +108,7 @@ remote: error: File YmeraRefactor.zip is 123.45 MB; this exceeds GitHub's file s
 #### Use Git LFS
 ```bash
 git lfs install
-git lfs track "*.zip"
+git lfs track "YmeraRefactor.zip"
 git add .gitattributes YmeraRefactor.zip
 git commit -m "Add large file via LFS"
 git push
