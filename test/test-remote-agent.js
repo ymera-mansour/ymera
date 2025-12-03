@@ -80,7 +80,7 @@ async function runRemoteAgentTests() {
         console.log('\n✅ All remote agent tests passed!');
     } finally {
         // Close server
-        server.close();
+        await new Promise(resolve => server.close(resolve));
         console.log('\nMock cloud server stopped');
     }
 }

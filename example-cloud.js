@@ -76,7 +76,7 @@ async function main() {
         console.log(`Agent status: ${cloudAgent.status}`);
         console.log(`Agent endpoint: ${cloudAgent.endpoint}`);
     } finally {
-        server.close();
+        await new Promise(resolve => server.close(resolve));
         console.log('\nMock cloud service stopped');
     }
 }

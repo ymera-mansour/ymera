@@ -33,7 +33,8 @@ class RemoteCloudAgent extends CloudAgent {
                 headers: {
                     'Content-Type': 'application/json',
                     'Content-Length': Buffer.byteLength(postData)
-                }
+                },
+                timeout: 30000 // 30 second timeout
             };
 
             const req = protocol.request(options, (res) => {
@@ -63,7 +64,12 @@ class RemoteCloudAgent extends CloudAgent {
             });
 
             req.on('error', (error) => {
-                reject(new Error(`Request failed: ${error.message}`));
+                reject(new Error('Request failed to remote endpoint'));
+            });
+
+            req.on('timeout', () => {
+                req.destroy();
+                reject(new Error('Request timeout'));
             });
 
             req.write(postData);
