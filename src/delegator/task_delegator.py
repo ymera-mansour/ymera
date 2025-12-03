@@ -46,6 +46,9 @@ class TaskDelegator:
         for i, agent in enumerate(self.agents):
             if agent.agent_id == agent_id:
                 self.agents.pop(i)
+                # Reset round-robin index if it's out of bounds
+                if self._current_agent_index >= len(self.agents) and self.agents:
+                    self._current_agent_index = 0
                 logger.info(f"Agent {agent_id} unregistered")
                 return True
         return False

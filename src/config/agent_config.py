@@ -31,8 +31,13 @@ class AgentConfig:
         
         path = Path(self.config_path)
         if path.exists():
-            with open(path, 'r') as f:
-                self.config = json.load(f)
+            try:
+                with open(path, 'r') as f:
+                    self.config = json.load(f)
+            except json.JSONDecodeError as e:
+                raise ValueError(f"Invalid JSON in config file {self.config_path}: {e}")
+            except IOError as e:
+                raise IOError(f"Error reading config file {self.config_path}: {e}")
     
     def save(self) -> None:
         """Save configuration to file."""
@@ -40,10 +45,12 @@ class AgentConfig:
             raise ValueError("No config path specified")
         
         path = Path(self.config_path)
-        path.parent.mkdir(parents=True, exist_ok=True)
-        
-        with open(path, 'w') as f:
-            json.dump(self.config, f, indent=2)
+        try:
+            path.parent.mkdir(parents=True, exist_ok=True)
+            with open(path, 'w') as f:
+                json.dump(self.config, f, indent=2)
+        except IOError as e:
+            raise IOError(f"Error writing config file {self.config_path}: {e}")
     
     def get(self, key: str, default: Any = None) -> Any:
         """
