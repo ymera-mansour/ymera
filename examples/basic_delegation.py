@@ -74,7 +74,8 @@ async def main():
     
     # List registered agents
     print("\nRegistered agents:")
-    for agent_info in delegator.list_agents():
+    agent_list = await delegator.list_agents()
+    for agent_info in agent_list:
         print(f"  - {agent_info['agent_id']}: {agent_info['config']}")
     
     # Delegate tasks

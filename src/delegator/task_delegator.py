@@ -89,11 +89,12 @@ class TaskDelegator:
         result = await agent.execute(task)
         return result
     
-    def list_agents(self) -> List[Dict[str, Any]]:
+    async def list_agents(self) -> List[Dict[str, Any]]:
         """
         List all registered agents and their capabilities.
         
         Returns:
             List of agent capability dictionaries
         """
-        return [agent.get_capabilities() for agent in self.agents]
+        async with self._index_lock:
+            return [agent.get_capabilities() for agent in self.agents]
