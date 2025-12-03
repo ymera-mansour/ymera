@@ -32,6 +32,48 @@ env.bak/
 venv.bak/
 
 # IDEs
+# Extracted content
+ymera_extracted/
+
+# Temporary files
+*.tmp
+*.log
+.DS_Store
+
+# Build artifacts
+node_modules/
+dist/
+build/
+target/
+*.class
+*.pyc
+__pycache__/
+
+# IDE files
+# Dependencies
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Testing
+coverage/
+.nyc_output/
+
+# Production
+dist/
+build/
+
+# Environment
+.env
+.env.local
+.env.*.local
+# Build outputs
+dist/
+build/
+*.log
+
+# IDE
 .vscode/
 .idea/
 *.swp
@@ -58,3 +100,33 @@ htmlcov/
 *.log
 temp/
 tmp/
+
+
+# Test coverage
+coverage/
+.coverage
+htmlcov/
+
+# Environment files
+.env
+.env.local
+
+# Processing artifacts
+directory_structure.txt
+PROCESSING_REPORT.md
+# OS
+.DS_Store
+Thumbs.db
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+
+# Logs
+logs/
+*.log
+# Temp files
+*.tmp
+tmp/
+temp/
