@@ -34,10 +34,22 @@ This framework provides a simple pattern for delegating tasks to cloud-based age
 python cloud_agent_delegate.py --task unzip --input YmeraRefactor.zip
 ```
 
-### Running Multiple Tasks
+### Organizing Files
 
 ```bash
-python cloud_agent_delegate.py --task organize,review,test --input /path/to/files
+python cloud_agent_delegate.py --task organize --input /path/to/files
+```
+
+### Running Code Review
+
+```bash
+python cloud_agent_delegate.py --task review --input /path/to/code
+```
+
+### Running Tests
+
+```bash
+python cloud_agent_delegate.py --task test --input /path/to/project
 ```
 
 ### Generating Reports
@@ -45,6 +57,24 @@ python cloud_agent_delegate.py --task organize,review,test --input /path/to/file
 ```bash
 python cloud_agent_delegate.py --task report --format detailed
 ```
+
+### Programmatic Usage
+
+See `examples/basic_usage.py` for detailed examples of using the framework programmatically:
+
+```bash
+python examples/basic_usage.py
+```
+
+## Testing
+
+Run the test suite to verify the framework functionality:
+
+```bash
+python tests/test_cloud_agent_delegate.py
+```
+
+All tests should pass with 15/15 successful assertions.
 
 ## Current Status
 
