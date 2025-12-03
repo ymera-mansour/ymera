@@ -1,3 +1,37 @@
+# Python
+__pycache__/
+*/__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual environments
+venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+
+# IDEs
 # Extracted content
 ymera_extracted/
 
@@ -45,6 +79,27 @@ build/
 *.swp
 *.swo
 *~
+.DS_Store
+
+# Extracted files
+extracted/
+organized/
+
+# Generated reports
+reports/*.json
+reports/*.html
+reports/*.pdf
+
+# Test coverage
+.coverage
+htmlcov/
+.pytest_cache/
+
+# Temporary files
+*.tmp
+*.log
+temp/
+tmp/
 
 
 # Test coverage
