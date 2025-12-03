@@ -1,3 +1,21 @@
+# Extracted content
+ymera_extracted/
+
+# Temporary files
+*.tmp
+*.log
+.DS_Store
+
+# Build artifacts
+node_modules/
+dist/
+build/
+target/
+*.class
+*.pyc
+__pycache__/
+
+# IDE files
 # Dependencies
 node_modules/
 npm-debug.log*
@@ -15,6 +33,18 @@ build/
 *.swp
 *.swo
 
+# Test coverage
+coverage/
+.coverage
+htmlcov/
+
+# Environment files
+.env
+.env.local
+
+# Processing artifacts
+directory_structure.txt
+PROCESSING_REPORT.md
 # OS
 .DS_Store
 Thumbs.db
