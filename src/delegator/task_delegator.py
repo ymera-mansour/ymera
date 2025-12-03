@@ -28,12 +28,14 @@ class TaskDelegator:
         Args:
             agent: CloudAgent instance to register
         """
-        if agent.health_check():
-            async with self._index_lock:
-                self.agents.append(agent)
-            logger.info(f"Agent {agent.agent_id} registered successfully")
-        else:
+        # Check health before acquiring lock to avoid blocking
+        if not agent.health_check():
             logger.warning(f"Agent {agent.agent_id} failed health check")
+            return
+        
+        async with self._index_lock:
+            self.agents.append(agent)
+        logger.info(f"Agent {agent.agent_id} registered successfully")
     
     async def unregister_agent(self, agent_id: str) -> bool:
         """
@@ -70,21 +72,21 @@ class TaskDelegator:
         Raises:
             ValueError: If no agents are available or specified agent not found
         """
-        if not self.agents:
-            raise ValueError("No agents registered")
-        
-        # Select agent
-        if agent_id:
-            agent = next((a for a in self.agents if a.agent_id == agent_id), None)
-            if not agent:
-                raise ValueError(f"Agent {agent_id} not found")
-        else:
-            # Round-robin selection with thread-safe index management
-            async with self._index_lock:
+        # Select agent with thread-safe access
+        async with self._index_lock:
+            if not self.agents:
+                raise ValueError("No agents registered")
+            
+            if agent_id:
+                agent = next((a for a in self.agents if a.agent_id == agent_id), None)
+                if not agent:
+                    raise ValueError(f"Agent {agent_id} not found")
+            else:
+                # Round-robin selection
                 agent = self.agents[self._current_agent_index]
                 self._current_agent_index = (self._current_agent_index + 1) % len(self.agents)
         
-        # Execute task
+        # Execute task outside the lock to allow concurrent execution
         logger.info(f"Delegating task to agent {agent.agent_id}")
         result = await agent.execute(task)
         return result
