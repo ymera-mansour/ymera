@@ -45,9 +45,6 @@ class CloudAgentDelegator {
         
         if (capableAgents.length === 0) {
             // Fallback to first available agent if none explicitly handle the task
-            if (this.agents.length === 0) {
-                throw new Error('No agents available for delegation');
-            }
             return this.agents[0];
         }
 

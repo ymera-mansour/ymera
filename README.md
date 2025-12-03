@@ -21,9 +21,8 @@ const result = await delegator.delegate({
 ## Architecture
 
 The framework consists of:
-- **Delegator**: Coordinates task submission to cloud agents
-- **Agent Interface**: Defines the contract for cloud agent implementations
-- **Task Queue**: Manages pending tasks and results
+- **Delegator**: Coordinates task submission to cloud agents with capability-based selection
+- **Agent Interface**: Defines the contract for cloud agent implementations with status tracking
 
 ## Use Cases
 
