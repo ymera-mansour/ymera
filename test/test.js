@@ -35,6 +35,25 @@ async function runTests() {
     console.log('✓ Can handle:', canHandle);
     console.assert(canHandle === true, 'Agent should handle process_data');
 
+    // Test 4: Round-robin distribution
+    console.log('\nTest 4: Round-robin distribution across multiple agents');
+    const delegator2 = new CloudAgentDelegator();
+    const agent1 = new CloudAgent('agent-1', ['compute']);
+    const agent2 = new CloudAgent('agent-2', ['compute']);
+    delegator2.registerAgent(agent1);
+    delegator2.registerAgent(agent2);
+    
+    const results = [];
+    for (let i = 0; i < 4; i++) {
+        const result = await delegator2.delegate({ task: 'compute', data: { id: i } });
+        results.push(result.agent);
+    }
+    console.log('✓ Distribution:', results);
+    console.assert(results[0] === 'agent-1', 'First should be agent-1');
+    console.assert(results[1] === 'agent-2', 'Second should be agent-2');
+    console.assert(results[2] === 'agent-1', 'Third should be agent-1');
+    console.assert(results[3] === 'agent-2', 'Fourth should be agent-2');
+
     console.log('\n✅ All tests passed!');
 }
 

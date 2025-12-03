@@ -9,7 +9,7 @@ class CloudAgentDelegator {
             ...config
         };
         this.agents = [];
-        this.currentAgentIndex = 0;
+        this.agentIndexMap = new Map();
     }
 
     /**
@@ -44,13 +44,18 @@ class CloudAgentDelegator {
         const capableAgents = this.agents.filter(agent => agent.canHandle(task));
         
         if (capableAgents.length === 0) {
-            // Fallback to first agent if none explicitly handle the task
+            // Fallback to first available agent if none explicitly handle the task
+            if (this.agents.length === 0) {
+                throw new Error('No agents available for delegation');
+            }
             return this.agents[0];
         }
 
-        // Round-robin selection among capable agents
-        const agent = capableAgents[this.currentAgentIndex % capableAgents.length];
-        this.currentAgentIndex++;
+        // Round-robin selection among capable agents for this task type
+        const taskType = task.task;
+        const currentIndex = this.agentIndexMap.get(taskType) || 0;
+        const agent = capableAgents[currentIndex % capableAgents.length];
+        this.agentIndexMap.set(taskType, currentIndex + 1);
         return agent;
     }
 
