@@ -9,6 +9,7 @@ class CloudAgentDelegator {
             ...config
         };
         this.agents = [];
+        this.currentAgentIndex = 0;
     }
 
     /**
@@ -39,8 +40,18 @@ class CloudAgentDelegator {
      * @private
      */
     _selectAgent(task) {
-        // Simple round-robin selection
-        return this.agents[0];
+        // Filter agents by capability
+        const capableAgents = this.agents.filter(agent => agent.canHandle(task));
+        
+        if (capableAgents.length === 0) {
+            // Fallback to first agent if none explicitly handle the task
+            return this.agents[0];
+        }
+
+        // Round-robin selection among capable agents
+        const agent = capableAgents[this.currentAgentIndex % capableAgents.length];
+        this.currentAgentIndex++;
+        return agent;
     }
 
     /**
