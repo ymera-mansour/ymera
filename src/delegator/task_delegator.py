@@ -19,6 +19,7 @@ class TaskDelegator:
         """Initialize the task delegator."""
         self.agents: List[CloudAgent] = []
         self._current_agent_index: int = 0
+        self._index_lock: asyncio.Lock = asyncio.Lock()
     
     def register_agent(self, agent: CloudAgent) -> None:
         """
@@ -46,8 +47,8 @@ class TaskDelegator:
         for i, agent in enumerate(self.agents):
             if agent.agent_id == agent_id:
                 self.agents.pop(i)
-                # Reset round-robin index if it's out of bounds
-                if self._current_agent_index >= len(self.agents) and self.agents:
+                # Reset round-robin index if it's out of bounds or no agents left
+                if not self.agents or self._current_agent_index >= len(self.agents):
                     self._current_agent_index = 0
                 logger.info(f"Agent {agent_id} unregistered")
                 return True
@@ -76,9 +77,10 @@ class TaskDelegator:
             if not agent:
                 raise ValueError(f"Agent {agent_id} not found")
         else:
-            # Round-robin selection
-            agent = self.agents[self._current_agent_index]
-            self._current_agent_index = (self._current_agent_index + 1) % len(self.agents)
+            # Round-robin selection with thread-safe index management
+            async with self._index_lock:
+                agent = self.agents[self._current_agent_index]
+                self._current_agent_index = (self._current_agent_index + 1) % len(self.agents)
         
         # Execute task
         logger.info(f"Delegating task to agent {agent.agent_id}")

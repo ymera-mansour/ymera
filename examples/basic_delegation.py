@@ -5,22 +5,15 @@ Demonstrates how to use the cloud agent delegation framework.
 
 To run this example:
 1. Install the package: pip install -e .
-2. Run: python examples/basic_delegation.py
+2. Run: python -m examples.basic_delegation
 
-Or run directly from the repository root:
+For development, from the repository root:
 python -m examples.basic_delegation
 """
 
 import asyncio
 import logging
-import sys
-from pathlib import Path
 from typing import Any, Dict
-
-# Temporary path modification for running from examples directory
-# In production, install the package with: pip install -e .
-if __name__ == "__main__" and __package__ is None:
-    sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from src.agent.cloud_agent import CloudAgent
 from src.delegator.task_delegator import TaskDelegator
