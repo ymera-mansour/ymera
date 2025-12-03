@@ -4,6 +4,23 @@
 
 This repository demonstrates a cloud agent delegation framework for automating tasks such as file processing, organization, review, and testing.
 
+## Quick Start
+
+```bash
+# Clone the repository
+git clone https://github.com/ymera-mansour/ymera.git
+cd ymera
+
+# Run a quick test
+python3 cloud_agent_delegate.py --task organize --input .
+
+# Run the test suite
+python3 tests/test_cloud_agent_delegate.py
+
+# Run examples
+python3 examples/basic_usage.py
+```
+
 ## Problem Statement
 
 The original request was to unzip a folder, organize its contents, review the code, perform end-to-end testing, and provide a detailed report. However, the YmeraRefactor.zip file in the repository is currently empty (0 bytes).
