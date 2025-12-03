@@ -52,8 +52,8 @@ validate_zip() {
         exit 1
     fi
     
-    # Check file size
-    FILE_SIZE=$(stat -f%z "$ZIP_FILE" 2>/dev/null || stat -c%s "$ZIP_FILE" 2>/dev/null)
+    # Check file size (portable approach)
+    FILE_SIZE=$(wc -c < "$ZIP_FILE" 2>/dev/null | tr -d ' ')
     
     if [ "$FILE_SIZE" -eq 0 ]; then
         log_error "YmeraRefactor.zip is empty (0 bytes)!"
@@ -116,7 +116,7 @@ organize_structure() {
         PROJECT_TYPE="Rust"
     elif [ -f "go.mod" ]; then
         PROJECT_TYPE="Go"
-    elif [ -f "*.csproj" ]; then
+    elif find . -maxdepth 1 -name "*.csproj" -type f | grep -q .; then
         PROJECT_TYPE=".NET/C#"
     fi
     
@@ -124,8 +124,11 @@ organize_structure() {
     
     # Create directory tree
     log_info "Generating directory structure..."
-    tree -L 3 "$EXTRACT_DIR" > "$SCRIPT_DIR/directory_structure.txt" 2>/dev/null || \
-        find "$EXTRACT_DIR" -maxdepth 3 -print | sed 's|[^/]*/| |g' > "$SCRIPT_DIR/directory_structure.txt"
+    if command -v tree > /dev/null 2>&1; then
+        tree -L 3 "$EXTRACT_DIR" > "$SCRIPT_DIR/directory_structure.txt"
+    else
+        find "$EXTRACT_DIR" -maxdepth 3 | sort > "$SCRIPT_DIR/directory_structure.txt"
+    fi
     
     log_success "Directory structure saved to directory_structure.txt"
 }
@@ -204,7 +207,7 @@ run_tests() {
 generate_report() {
     log_info "Step 6: Generating detailed report..."
     
-    cat > "$REPORT_FILE" << 'EOF'
+    cat > "$REPORT_FILE" << EOF
 # YmeraRefactor Processing Report
 
 ## Processing Summary
