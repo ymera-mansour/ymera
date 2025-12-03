@@ -74,7 +74,7 @@ Run the test suite to verify the framework functionality:
 python tests/test_cloud_agent_delegate.py
 ```
 
-All tests should pass with 15/15 successful assertions.
+All tests should pass with 16/16 successful assertions.
 
 ## Current Status
 
