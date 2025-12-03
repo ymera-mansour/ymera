@@ -5,6 +5,7 @@ Demonstrates how to use the cloud agent delegation framework.
 """
 
 import asyncio
+import logging
 import sys
 from pathlib import Path
 
@@ -14,6 +15,12 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 from src.agent.cloud_agent import CloudAgent
 from src.delegator.task_delegator import TaskDelegator
 from typing import Any, Dict
+
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+)
 
 
 class SimpleCloudAgent(CloudAgent):

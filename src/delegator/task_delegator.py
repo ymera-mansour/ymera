@@ -5,8 +5,11 @@ Handles delegation of tasks to cloud agents.
 """
 
 import asyncio
+import logging
 from typing import Any, Dict, List, Optional
 from ..agent.cloud_agent import CloudAgent
+
+logger = logging.getLogger(__name__)
 
 
 class TaskDelegator:
@@ -15,7 +18,7 @@ class TaskDelegator:
     def __init__(self):
         """Initialize the task delegator."""
         self.agents: List[CloudAgent] = []
-        self.task_queue: asyncio.Queue = asyncio.Queue()
+        self._current_agent_index: int = 0
     
     def register_agent(self, agent: CloudAgent) -> None:
         """
@@ -26,9 +29,9 @@ class TaskDelegator:
         """
         if agent.health_check():
             self.agents.append(agent)
-            print(f"Agent {agent.agent_id} registered successfully")
+            logger.info(f"Agent {agent.agent_id} registered successfully")
         else:
-            print(f"Agent {agent.agent_id} failed health check")
+            logger.warning(f"Agent {agent.agent_id} failed health check")
     
     def unregister_agent(self, agent_id: str) -> bool:
         """
@@ -43,7 +46,7 @@ class TaskDelegator:
         for i, agent in enumerate(self.agents):
             if agent.agent_id == agent_id:
                 self.agents.pop(i)
-                print(f"Agent {agent_id} unregistered")
+                logger.info(f"Agent {agent_id} unregistered")
                 return True
         return False
     
@@ -70,11 +73,12 @@ class TaskDelegator:
             if not agent:
                 raise ValueError(f"Agent {agent_id} not found")
         else:
-            # Simple round-robin selection
-            agent = self.agents[0]
+            # Round-robin selection
+            agent = self.agents[self._current_agent_index]
+            self._current_agent_index = (self._current_agent_index + 1) % len(self.agents)
         
         # Execute task
-        print(f"Delegating task to agent {agent.agent_id}")
+        logger.info(f"Delegating task to agent {agent.agent_id}")
         result = await agent.execute(task)
         return result
     
