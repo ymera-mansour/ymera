@@ -102,6 +102,30 @@ class TestCloudAgentDelegate(unittest.TestCase):
         self.assertGreater(categories['documentation'], 0)
         self.assertGreater(categories['configs'], 0)
     
+    def test_organize_test_files(self):
+        """Test that test files are correctly categorized as tests, not source code."""
+        # Create test files with various naming patterns
+        test_files = [
+            "example.test.py",
+            "another.spec.js",
+            "unit_test.py",
+            "integration_spec.js",
+            "main.py"  # Regular source file for comparison
+        ]
+        for filename in test_files:
+            Path(os.path.join(self.test_dir, filename)).touch()
+        
+        result = self.delegate.delegate_task(
+            TaskType.ORGANIZE,
+            self.test_dir
+        )
+        self.assertEqual(result['status'], 'success')
+        
+        # Verify test files are in tests category
+        categories = result['categories']
+        self.assertEqual(categories['tests'], 4)  # 4 test files
+        self.assertEqual(categories['source_code'], 1)  # Only main.py
+    
     def test_review_nonexistent_path(self):
         """Test review with non-existent path."""
         result = self.delegate.delegate_task(

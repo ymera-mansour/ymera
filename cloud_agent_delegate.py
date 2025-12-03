@@ -150,14 +150,16 @@ class CloudAgentDelegate:
         for root, dirs, files in os.walk(input_path):
             for file in files:
                 file_path = os.path.join(root, file)
+                file_lower = file.lower()
                 ext = os.path.splitext(file)[1].lower()
                 
-                if ext in ['.py', '.js', '.java', '.cpp', '.c', '.go', '.rs']:
+                # Check for test files first (before checking source code extensions)
+                if any(pattern in file_lower for pattern in ['.test.', '.spec.', '_test.', '_spec.']):
+                    organized["tests"].append(file_path)
+                elif ext in ['.py', '.js', '.java', '.cpp', '.c', '.go', '.rs']:
                     organized["source_code"].append(file_path)
                 elif ext in ['.md', '.txt', '.rst', '.pdf']:
                     organized["documentation"].append(file_path)
-                elif ext in ['.test.py', '.test.js', '.spec.js']:
-                    organized["tests"].append(file_path)
                 elif ext in ['.yaml', '.yml', '.json', '.toml', '.ini']:
                     organized["configs"].append(file_path)
                 else:
