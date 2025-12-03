@@ -17,6 +17,9 @@ parts/
 sdist/
 var/
 wheels/
+*.egg-info/
+.installed.cfg
+*.egg
 pip-wheel-metadata/
 share/python-wheels/
 *.egg-info/
@@ -79,6 +82,7 @@ build/
 *.swp
 *.swo
 *~
+
 .DS_Store
 
 # Extracted files
@@ -118,6 +122,12 @@ PROCESSING_REPORT.md
 .DS_Store
 Thumbs.db
 
+# Config files
+*.log
+config.local.json
+
+# Empty zip file
+YmeraRefactor.zip
 # Temporary files
 tmp/
 temp/

@@ -1,3 +1,5 @@
+# Ymera Cloud Agent Delegation Framework
+# Python 3.8+ required for asyncio features
 # Cloud Agent Delegation Framework Requirements
 #
 # This project uses only Python standard library modules.
