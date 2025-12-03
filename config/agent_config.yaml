@@ -1,0 +1,134 @@
+# Cloud Agent Configuration
+#
+# This file defines the configuration for different cloud agent types
+# and their capabilities.
+
+agents:
+  file_processor:
+    name: "File Processing Agent"
+    description: "Handles file extraction, compression, and organization"
+    capabilities:
+      - unzip
+      - organize
+      - compress
+    provider: "aws_lambda"
+    timeout: 300
+    memory: 1024
+    
+  code_reviewer:
+    name: "Code Review Agent"
+    description: "Performs automated code quality analysis"
+    capabilities:
+      - review
+      - lint
+      - security_scan
+    provider: "azure_functions"
+    timeout: 600
+    memory: 2048
+    
+  test_runner:
+    name: "Test Execution Agent"
+    description: "Runs unit tests, integration tests, and E2E tests"
+    capabilities:
+      - test
+      - coverage
+      - performance
+    provider: "google_cloud_functions"
+    timeout: 900
+    memory: 2048
+    
+  report_generator:
+    name: "Report Generation Agent"
+    description: "Generates detailed reports from task results"
+    capabilities:
+      - report
+      - visualize
+      - export
+    provider: "aws_lambda"
+    timeout: 300
+    memory: 1024
+
+# Task-specific settings
+tasks:
+  unzip:
+    max_file_size_mb: 500
+    allowed_extensions:
+      - .zip
+      - .tar.gz
+      - .tar
+      - .7z
+    
+  organize:
+    categories:
+      source_code:
+        - .py
+        - .js
+        - .java
+        - .cpp
+        - .go
+        - .rs
+      documentation:
+        - .md
+        - .txt
+        - .rst
+        - .pdf
+      tests:
+        - .test.py
+        - .test.js
+        - .spec.js
+        - .test.java
+      configs:
+        - .yaml
+        - .yml
+        - .json
+        - .toml
+        - .ini
+        
+  review:
+    enabled_checks:
+      - code_quality
+      - security
+      - performance
+      - documentation
+    tools:
+      - pylint
+      - eslint
+      - sonarqube
+      
+  test:
+    frameworks:
+      python: pytest
+      javascript: jest
+      java: junit
+    coverage_threshold: 80
+    
+  report:
+    formats:
+      - json
+      - html
+      - markdown
+      - pdf
+    include_sections:
+      - summary
+      - detailed_results
+      - recommendations
+      - metrics
+
+# Retry and error handling
+retry_policy:
+  max_attempts: 3
+  backoff_multiplier: 2
+  initial_delay_seconds: 5
+
+# Logging configuration
+logging:
+  level: "INFO"
+  format: "json"
+  output: "console"
+  
+# Notification settings
+notifications:
+  enabled: false
+  channels:
+    - email
+    - slack

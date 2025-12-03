@@ -1,0 +1,45 @@
+{
+  "task_id": "example-001",
+  "type": "unzip_and_process",
+  "description": "Example task showing complete workflow",
+  "workflow": [
+    {
+      "step": 1,
+      "action": "unzip",
+      "input": "YmeraRefactor.zip",
+      "output": "extracted/",
+      "agent": "file_processor"
+    },
+    {
+      "step": 2,
+      "action": "organize",
+      "input": "extracted/",
+      "output": "organized/",
+      "agent": "file_processor"
+    },
+    {
+      "step": 3,
+      "action": "review",
+      "input": "organized/",
+      "output": "reports/review.json",
+      "agent": "code_reviewer"
+    },
+    {
+      "step": 4,
+      "action": "test",
+      "input": "organized/",
+      "output": "reports/test_results.json",
+      "agent": "test_runner"
+    },
+    {
+      "step": 5,
+      "action": "report",
+      "input": "reports/",
+      "output": "reports/final_report.pdf",
+      "agent": "report_generator"
+    }
+  ],
+  "priority": "high",
+  "created_at": "2025-12-03T21:24:00Z",
+  "status": "pending"
+}

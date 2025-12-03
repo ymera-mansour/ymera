@@ -1,0 +1,32 @@
+{
+  "name": "ymera-cloud-agent",
+  "version": "1.0.0",
+  "description": "Cloud agent delegation framework for distributed processing",
+  "main": "src/cloud-agent.js",
+  "scripts": {
+    "start": "node example-usage.js",
+    "test": "echo \"Cloud agent delegation framework ready\" && exit 0"
+  "name": "ymera",
+  "version": "1.0.0",
+  "description": "Cloud agent delegation framework",
+  "main": "src/delegator.js",
+  "scripts": {
+    "test": "node test/test.js"
+  },
+  "keywords": [
+    "cloud",
+    "agent",
+    "delegation",
+    "distributed",
+    "processing"
+  ],
+  "author": "Ymera",
+  "license": "MIT",
+  "engines": {
+    "node": ">=14.0.0"
+  }
+    "distributed"
+  ],
+  "author": "",
+  "license": "MIT"
+}
